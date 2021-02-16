@@ -7,6 +7,7 @@ const db = knex(config.development);
 module.exports = {
   find,
   findById,
+  findSteps,
   add,
   update,
   remove,
@@ -40,4 +41,11 @@ function update(id, scheme) {
 
 function remove(id) {
   return db("schemes").where("id", Number(id)).del();
+}
+
+function findSteps(id) {
+  return db("schemes")
+    .join("steps", "schemes.id", "steps.scheme_id")
+    .where("steps.id", id)
+    .select("steps.*");
 }
